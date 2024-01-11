@@ -1,0 +1,57 @@
+@font-face {
+  font-family: Q;
+  /* font-style: normal; */
+  /* font-weight: 400; */
+  src: url(q.woff2) format("woff2"), url(q.woff) format("woff");
+  /* Amiri Quran 1.000; SIL OFL 1.1; https://github.com/alif-type/amiri */
+  /* subsetted and converted to WOFF & WOFF2 using pyftsubset; see .font.pl file */
+}
+html {
+  font-size: 24px;
+  font-family: Q, "Amiri Quran", "Amiri", serif;
+  background: #e0e0c8;
+  color: #222;
+  line-height: 3;  /* for overline */
+  touch-action: manipulation; /* disable double-tap zooming; https://stackoverflow.com/a/53236027 */
+}
+body > * {
+  width: 36rem;
+  max-width: 85%;
+  margin: auto;
+}
+#q, #n { font-size: 20px }
+#q { color: #666 }
+#n { color: #999 }
+#n {
+  border-bottom: 1px solid;
+}
+* {
+  text-weight: normal;
+}
+em {
+  font-style: normal;
+  border-bottom: 0.1em solid;
+}
+button {  /* https://stackoverflow.com/a/8525002 */
+  display: inline;
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  text-decoration: underline 1px;
+  text-underline-offset: 60%;  /* below Ayn in Amiri */
+  font: inherit;
+  color: #090;
+}
+button:hover { color: #072; text-decoration-thickness: 2px }
+@media (prefers-color-scheme: dark) {
+  html {
+    background: #262620;
+    color: #e0e0c8;
+  }
+  #n { color: #666 }
+  #q { color: #999 }
+  button       { color: #4f4 }
+  button:hover { color: #8fc }
+}

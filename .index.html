@@ -1,0 +1,49 @@
+<!doctype html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<title>فرائد: هل تستطيع معرفة الآيات التي وردت فيها كلمات لم ترد في غيرها؟</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel=icon type=image/jpeg sizes=72x72 href=72.jpg>
+<link rel=icon type=image/jpeg sizes=32x32 href=32.jpg>
+<link rel=icon type=image/jpeg sizes=16x16 href=16.jpg>
+<meta property="og:locale" content="ar_AR">
+<meta property="og:type" content="website">
+<<style>>
+</head>
+<body>
+<h2 id="hh">فرائد: <small>هل تستطيع معرفة الآيات التي وردت فيها كلمات لم ترد في غيرها؟</small></h2>
+<div id="n">(لإظهار الإجابة أو لرؤية كلمة جديدة، اضغط أي زر على لوحة المفاتيح أو انقر نقرة مزدوجة في أي مكان على الصفحة.)</div>
+<div id="q"></div>
+<div id="a"></div>
+<div id="qs"><<qs>></div>
+<div id="ss"><<ss>></div>
+<script src="a.js"></script>
+<script src="w.js"></script>
+<script src="wa.js"></script>
+<script>
+'use strict'
+// A[] contains all aayaat of the Quran.
+// N() takes an aayah index (in A) and returns the sura name.
+// W[] contains all unique words of the Quran (in the Uthmani script,
+//         with all vowels, but disregarding the last vowel).
+// B[] contains W[] words that starts an aayah longer than one word.
+// WA[] and BA[] contain the solutions (aayah index).
+
+<<.utils.js>>
+
+const WW = new Set(W)
+
+const Qid = (id) => document.getElementById(id)
+<<elements>>
+
+let words
+let answers
+
+<<.make.js>>
+<<.logic.js>>
+
+</script>
+</body>
+</html>
+
