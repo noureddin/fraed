@@ -43,9 +43,9 @@ button {  /* https://stackoverflow.com/a/8525002 */
   text-decoration: underline 1px;
   text-underline-offset: 60%;  /* below Ayn in Amiri */
   font: inherit;
-  color: #090;
+  color: #009000;
 }
-button:hover { color: #072; text-decoration-thickness: 2px }
+button:hover { color: #062; text-decoration-thickness: 2px }
 @media (prefers-color-scheme: dark) {
   html {
     background: #262620;
