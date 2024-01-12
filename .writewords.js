@@ -9,19 +9,21 @@ const W =
 const WA =
   W.map(word => _.find(pair => pair[0] === word)[1])
 
-await write_array_to_file('w', W.map(w => '"' + w + '"'))  // strings (words)
-
-await write_array_to_file('wa', WA)  // numbers (indices)
+await write_to_file('w.js',
+  'W=[' + W.map(w => '"' + w + '"').join(',') + ']'  // strings (words)
+  + '\n' +
+  'WA=[' + WA.join(',') + ']'  // numbers (indices)
+)
 
 // Creating this takes too long in JS, even with Deno.
 // So it's better to precompute it and ship that ~220 KB of data (for w.js).
 // (For comparison, the data in a.js is ~1,400 KB.)
 // It's not written in Perl (it was), to have a single source of truth.
 
-async function write_array_to_file (name, array_raw) {
+async function write_to_file (filename, content) {
   // https://examples.deno.land/streaming-files
 
-  const output = await Deno.open(name.toLowerCase() + '.js', {
+  const output = await Deno.open(filename, {
     write: true,
     create: true,
   })
@@ -29,9 +31,7 @@ async function write_array_to_file (name, array_raw) {
   const outputWriter = output.writable.getWriter()
   await outputWriter.ready
 
-  const outputText =
-    'const ' + name.toUpperCase() + '=[' + array_raw.join(',') + ']'
-  const encoded = new TextEncoder().encode(outputText)
+  const encoded = new TextEncoder().encode(content)
   await outputWriter.write(encoded)
 
   await outputWriter.close()
