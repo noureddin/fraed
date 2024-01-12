@@ -5,6 +5,7 @@
   src: url(q.woff2) format("woff2"), url(q.woff) format("woff");
   /* Amiri Quran 1.000; SIL OFL 1.1; https://github.com/alif-type/amiri */
   /* subsetted and converted to WOFF & WOFF2 using pyftsubset; see .font.pl file */
+  font-display: swap;
 }
 html {
   font-size: 24px;
