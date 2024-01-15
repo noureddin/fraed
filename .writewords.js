@@ -9,31 +9,39 @@ const W =
 const WA =
   W.map(word => _.find(pair => pair[0] === word)[1])
 
-await write_to_file('w.js',
-  'W=[' + W.map(w => '"' + w + '"').join(',') + ']'  // strings (words)
-  + '\n' +
-  'WA=[' + WA.join(',') + ']'  // numbers (indices)
-)
+console.log(W.join(',') + '\n' + WA.join(','))
 
-// Creating this takes too long in JS, even with Deno.
-// So it's better to precompute it and ship that ~220 KB of data (for w.js).
-// (For comparison, the data in a.js is ~1,400 KB.)
-// It's not written in Perl (it was), to have a single source of truth.
+// console.log(
+//   'W=[' + W.map(w => '"' + w + '"').join(',') + ']'  // strings (words)
+//   + '\n' +
+//   'WA=[' + WA.join(',') + ']'  // numbers (indices)
+// )
 
-async function write_to_file (filename, content) {
-  // https://examples.deno.land/streaming-files
+// await write_to_file('.w.js',
+//   'W=[' + W.map(w => '"' + w + '"').join(',') + ']'  // strings (words)
+//   + '\n' +
+//   'WA=[' + WA.join(',') + ']'  // numbers (indices)
+// )
 
-  const output = await Deno.open(filename, {
-    write: true,
-    create: true,
-  })
+// // Creating this takes too long in JS, even with Deno.
+// // So it's better to precompute it and ship that ~220 KB of data (for w.js).
+// // (For comparison, the data in a.js is ~1,400 KB.)
+// // It's not written in Perl (it was), to have a single source of truth.
 
-  const outputWriter = output.writable.getWriter()
-  await outputWriter.ready
+// async function write_to_file (filename, content) {
+//   // https://examples.deno.land/streaming-files
 
-  const encoded = new TextEncoder().encode(content)
-  await outputWriter.write(encoded)
+//   const output = await Deno.open(filename, {
+//     write: true,
+//     create: true,
+//   })
 
-  await outputWriter.close()
-}
+//   const outputWriter = output.writable.getWriter()
+//   await outputWriter.ready
+
+//   const encoded = new TextEncoder().encode(content)
+//   await outputWriter.write(encoded)
+
+//   await outputWriter.close()
+// }
 

@@ -32,11 +32,13 @@ s{<<style>>}{
 
 ## PROCESS & MINIFY JS
 
-my $elements =
-  join "\n",
-    map { "const el_$_ = Qid('$_')" }
-      m/ id="([^"]+)"/g;
-s{<<elements>>}{$elements}g;
+# my $elements =
+#   join "\n",
+#     map { "const el_$_ = Qid('$_')" }
+#       m/ id="([^"]+)"/g;
+# s{<<elements>>}{$elements}g;
+## almost all the elements are used only in the show_* fns in .logic.js,
+## where it's shorter and arguably cleaner to use their ids directly.
 
 s{<<([^<>]*?[.]js)>>}{
   slurp $1
@@ -45,17 +47,36 @@ s{<<([^<>]*?[.]js)>>}{
 my $R = sprintf '[%s]', join ',', qw[ h ];  # global fns defined in JS that are called from HTML
 
 s{<script>(.*?)</script>}{
-  my ($fh, $filename) = tempfile UNLINK => 1;
-  binmode $fh, ':encoding(UTF-8)';
-  print { $fh } $1;
-  close $fh;
+  my $filename = '.script.js';
+  open my $ifh, '>', $filename;
+  print { $ifh } $1;
+  close $ifh;
   #
-  sprintf '<script>%s</script>',
-  scalar qx[ deno run --quiet --allow-read npm:uglify-js --compress top_retain=$R,passes=5 --mangle toplevel,reserved=$R $filename ]
+  open my $ofh, '>', 'script.js';
+  print { $ofh }
+  scalar qx[ deno run --quiet --allow-read npm:uglify-js --compress top_retain='$R',passes=10 --mangle toplevel,reserved='$R' .script.js ]
   # scalar qx[ deno run --quiet --allow-read npm:uglify-js $filename ]
   # scalar qx[ cat $filename ]
-    =~ s/[;\s]+\Z//r
+    =~ s/[;\s]+\Z//r;
+  close $ofh;
+  unlink $filename;
+  '<script src="script.js"></script>'
 }sge;
+
+s{(<script) (src=")}{$1 defer $2}g;
+
+#s{<script>(.*?)</script>}{
+#  my ($fh, $filename) = tempfile UNLINK => 1;
+#  binmode $fh, ':encoding(UTF-8)';
+#  print { $fh } $1;
+#  close $fh;
+#  #
+#  sprintf '<script>%s</script>',
+#  scalar qx[ deno run --quiet --allow-read npm:uglify-js --compress top_retain=$R,passes=5 --mangle toplevel,reserved=$R $filename ]
+#  # scalar qx[ deno run --quiet --allow-read npm:uglify-js $filename ]
+#  # scalar qx[ cat $filename ]
+#    =~ s/[;\s]+\Z//r
+#}sge;
 
 
 ## QUIZ SELECTION HTML
@@ -86,7 +107,11 @@ s{<<qs>>}{$qs}g;
 
 ## SUAR SELECTION HTML
 
-my $ss = '';  # TODO: for now, all suar are selected
+my $ss =  # TODO: for now, all suar are selected
+  'ابدأ الاختبار في '
+  .qq[<nobr><button onclick="h('s=1,2-114')">جميع السور</button></nobr>]
+  .'.'
+  ;
 
 s{<<ss>>}{$ss}g;
 

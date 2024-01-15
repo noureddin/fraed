@@ -19,22 +19,40 @@
 <div id="a"></div>
 <div id="qs"><<qs>></div>
 <div id="ss"><<ss>></div>
-<script src="a.js"></script>
-<script src="w.js"></script>
 <script>
 'use strict'
+
+// this is gunzipSync from fflate, wrapped in a function that calls fetch() and
+// decodes the resulting Uint8Array into a Unicode string; it only exports that
+// function, which is called G().
+// see the comment in the beginning of .g.ts file.
+<<.g.js>>
+
 // A[] contains all aayaat of the Quran.
-// N() takes an aayah index (in A) and returns the sura name.
 // W[] contains all unique words of the Quran (in the Uthmani script,
 //         with all vowels, but disregarding the last vowel).
 // WA[] contains the solutions (aayah index).
+// WW is just a Set of W.
+// all of them are asyncly loaded (below) from a.gz.
+
+let A, W, WA, WW;
+G('a.gz').then((data) => {
+  A  = data.split('\n')
+  /**/ A.pop()  // b/c all lines end with \n, so this is empty
+  WA = A.pop().split(',').map(e => +e)
+  W  = A.pop().split(',')
+  WW = new Set(W)
+})
+
+// S() takes an aayah index (in A) and returns its 1-based sura number.
+// N() takes an aayah index (in A) and returns the sura name.
+// both are defined in the inlined .utils.js file.
 
 <<.utils.js>>
 
-const WW = new Set(W)
-
 const Qid = (id) => document.getElementById(id)
-<<elements>>
+const el_q = Qid('q')
+const el_a = Qid('a')
 
 let words
 let answers
