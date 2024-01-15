@@ -6,7 +6,8 @@
 //   equivalent to strFromU8(gunzipSync(...)) on the result.
 // err() is simplified a bit, and its id-to-msg now includes gzip for 6,
 //   and excludes what we don't need here, so err(6) became err(4),
-//   and FlateError is removed, and err() now throws unconditionally.
+//   and FlateError is removed, and err() now throws unconditionally,
+//   and the 'invalid' messages all say 'bad' now, as it's shorter.
 // Also a few manual minifications were introduced.
 // License: MIT; original source: https://github.com/101arrowz/fflate
 // Based on v0.8.1 (Sep 18, 2023).
@@ -184,10 +185,10 @@ type InflateState = {
 // error codes
 const ec = [
   'unexpected EOF',
-  'invalid block type',
-  'invalid length/literal',
-  'invalid distance',
-  'invalid gzip data',  // determined by compression function -- was number 6
+  'bad block type',
+  'bad length/literal',
+  'bad distance',
+  'bad gzip data',  // determined by compression function -- was number 6
 ];
 
 const err = (ind: number, msg?: string) => {
