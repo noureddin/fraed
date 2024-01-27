@@ -86,19 +86,23 @@ sub quiz_button { my ($quiz, $title) = @_;
   # <nobr> to treate that element as a normal text word for line-breaking, so it won't break `</nobr>.`
 }
 
+my $SP = '&emsp; ';
+
 my $qs = (
   'اختبار معرفة '.quiz_button(gs => 'الآية البادئة بكلمة فريدة').' في القرءان،<br>'.
   'أو اختبار معرفة '.quiz_button(gg => 'الآية المحتوية على كلمة فريدة').' في القرءان.<br>'.
-  'اختبار معرفة الآية الوحيدة في القرءان البادئة بكلمات معينة'.' '.note('والتي قد ترد في آيات أخرى في غير بداية الآية').':&emsp;'.
-  quiz_button(s1 => 'كلمة واحدة '.note('صعب')).'،&emsp;'.
-  quiz_button(s2 => 'كلمتين').'،&emsp;'.
-  quiz_button(s3 => 'ثلاث').'،&emsp;'.
-  quiz_button(s4 => 'أربع').'،&emsp;'.
-  quiz_button(s5 => 'خمس').'،&emsp;'.
-  quiz_button(s6 => 'ست').'،&emsp;'.
-  quiz_button(s7 => 'سبع').'،&emsp;'.
-  quiz_button(s8 => 'ثماني').'،&emsp;'.
-  quiz_button(s9 => 'تسع كلمات '.note('سهل جدا')).'.<br>'.
+  'اختبار معرفة الآية الوحيدة في القرءان البادئة بكلمات معينة'.' '.note('والتي قد ترد في آيات أخرى في غير بداية الآية').":$SP".
+  (join "،$SP",
+    quiz_button(s1 => 'كلمة واحدة '.note('صعب')),
+    quiz_button(s2 => 'كلمتين'),
+    quiz_button(s3 => 'ثلاث'),
+    quiz_button(s4 => 'أربع'),
+    quiz_button(s5 => 'خمس'),
+    quiz_button(s6 => 'ست'),
+    quiz_button(s7 => 'سبع'),
+    quiz_button(s8 => 'ثماني'),
+    quiz_button(s9 => 'تسع كلمات '.note('سهل جدا')).'.<br>',
+  ).
   note('في جميع هذه الاختبارات، تُهمل حركة الحرف الأخير من الكلمة أو الكلمات.').
 '');
 
