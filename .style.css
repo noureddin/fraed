@@ -33,7 +33,7 @@ em {
   font-style: normal;
   border-bottom: 0.1em solid;
 }
-button {  /* https://stackoverflow.com/a/8525002 */
+button {  /* https://stackoverflow.com/a/8525002 with modifications */
   display: inline;
   position: relative;
   background-color: transparent;
@@ -43,6 +43,7 @@ button {  /* https://stackoverflow.com/a/8525002 */
   text-decoration: underline 1px;
   text-underline-offset: 60%;  /* below Ayn in Amiri */
   font: inherit;
+  user-select: text;
   color: #009000;
 }
 button:hover { color: #062; text-decoration-thickness: 2px }
