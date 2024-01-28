@@ -30,11 +30,6 @@ function play () {
   if (i != null) { answer() } else { ask() }
 }
 
-function start_playing () {  // if haven't started yet; useful when coming from the selection screens.
-  if (i === undefined) { ask() }
-}
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // DISPATCH
 
@@ -89,7 +84,7 @@ function render (ev) {
         show_play_screen()
         onkeypress = play
         ondblclick = (ev) => { ev.preventDefault(); play() }
-        start_playing()
+        ask()
       }
     }
   }
