@@ -116,9 +116,13 @@ function show_suar_selection () {
   const hq = quizes[ hash_param('q', '[a-z0-9]+') ](true)  // title_only
   el_q.innerHTML = 'اختبار معرفة ' + el_q.innerHTML
       .r(/^ما /, '')
-      .r(/ ال([كف])/g, /*A*/ ' $1')  // الكلمة الفريدة to كلمة وحيدة
-      .r(/ به[^ ]+ /,  /*A*/ ' ب')   // بهذه الكلمة to بكلمة
+      .r(/ ال([بكف])/g, /*A*/ ' $1')  // الكلمة to كلمة
+      .r(/هذه /, '')
+      .r(/هاتين /, '')
       .r(/؟ .*/, '.')  // no question mark, and no i3rab comment (currently cannot select i3rab from the UI)
+      .r(/(بكلم(?:ة|ات))\.$/, '$1 معينة.')
+      .r(/(بكلمتين)\.$/, '$1 معينتين.')
+      .r(/تبدأ بداية .*/, /*A*/ 'تبدأ بداية معينة.')
   hide('qs a n')
   show('q hh ss')
 }
