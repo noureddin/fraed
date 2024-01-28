@@ -46,12 +46,26 @@ function make_any_word_quiz (num, irab, title_only) {
       irab ? 'بمراعاة' : 'بإهمال'
     ) + ' حركة الحرف الأخير)'
   if (title_only) { return }
-  // all aayaat of the quran
+  //
   words = W
   answers = WA
 }
 
+function make_aayah_shortest_start_quiz (irab, title_only) {
+  // title
+  q.innerHTML = 'ما الآية الوحيدة في القرءان التي تبدأ هذه البداية الفريدة؟  (' + (
+      irab ? 'بمراعاة' : 'بإهمال'
+    ) + ' حركة الحرف الأخير)'
+  if (title_only) { return }
+  //
+  words = irab ? P : Pi
+  answers = irab ? PA : PiA
+}
+
+
 const quizes = {
+ ss: (title_only) => make_aayah_shortest_start_quiz(true, title_only),
+ ssi:(title_only) => make_aayah_shortest_start_quiz(false,title_only),
  gg: (title_only) => make_any_word_quiz(1, false, title_only),
  gs: (title_only) => make_aayah_start_quiz(1, true, null, title_only),
 }

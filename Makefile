@@ -4,7 +4,10 @@ index.html: a.gz .g.js .*.js .style.css .index.html .process.pl
 .w.txt: .a.js .utils.js .writewords.js
 	cat $^ | deno run - > $@
 
-a.gz: .a.txt .w.txt
+.p.txt: .a.js .utils.js .calcuniqprefix.js
+	cat $^ | deno run - > $@
+
+a.gz: .a.txt .w.txt .p.txt
 	cat $^ | gzip --best > $@
 
 .g.js: .g.ts .g.sh

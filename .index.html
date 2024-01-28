@@ -31,14 +31,22 @@
 // A[] contains all aayaat of the Quran.
 // W[] contains all unique words of the Quran (in the Uthmani script,
 //         with all vowels, but disregarding the last vowel).
-// WA[] contains the solutions (aayah index).
+// P[] contains the shortest unique prefixes (words) of the aayaat.
+// Pi[] contains the shortest unique prefixes (words, w/o irab) of the aayaat.
+// WA[] contains the solutions to W[] (aayah index).
+// PA[] contains the solutions to P[] (aayah index).
+// PiA[] contains the solutions to Pi[] (aayah index).
 // WW is just a Set of W.
 // all of them are asyncly loaded (below) from a.gz.
 
-let A, W, WA, WW;
+let A, W, WA, WW, P, PA, Pi, PiA;
 G('a.gz').then((data) => {
   A  = data.split('\n')
   /**/ A.pop()  // b/c all lines end with \n, so this is empty
+  PiA= A.pop().split(',').map(e => +e)
+  Pi = A.pop().split(',')
+  PA = A.pop().split(',').map(e => +e)
+  P  = A.pop().split(',')
   WA = A.pop().split(',').map(e => +e)
   W  = A.pop().split(',')
   WW = new Set(W)
