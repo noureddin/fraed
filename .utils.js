@@ -48,9 +48,7 @@ function h (hash_param) {
 ////////////////////////////////////////////////////////////////////////////////
 // SHORTHAND UTILS
 
-String.prototype.r = function (regex, replacement) {
-  return this.replace(regex, replacement)
-}
+String.prototype.r = String.prototype.replace
 
 ////////////////////////////////////////////////////////////////////////////////
 // AAYAAT STRING UTILS
@@ -65,6 +63,7 @@ function unmark (aayah) {
     .r(/\u06de\xa0/, '')  // start of rub el hizb
     // on the word level
     .r(/[\u06d6-\u06dc]+(?=$| )/g, '')  // waqf signs ('+' for 036:052)
+    .r(/^(.)\u0651/g, '$1')  // remove initial shadda-of-idgham
     // on the character level
     .r(/\u0305/g, '')  // combining overline
   )
@@ -86,8 +85,6 @@ function deirab (word) {
     .r(/\u064b([اى]?)$/,       '$1')  // tanween fath
     .r(/\u08f0([اى]?)$/,       '$1')  // open tanween fath
     .r(/\u064e\u06e2([اى]?)$/, '$1')  // iqlab tanween fath
-    // remove initial shadda-of-idgham
-    .r(/(^.)\u0651/g, '$1')
     // remove dagger alef from final alef maqsura (its existence depends on the first letter of the next word)
     .r(/(ى)\u0670$/, '$1')
   )
