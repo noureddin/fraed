@@ -44,10 +44,10 @@ G('a.gz').then((data) => {
   A  = data.split('\n')
   /**/ A.pop()  // b/c all lines end with \n, so this is empty
   PiA= A.pop().split(',').map(e => +e)
-  Pi = A.pop().split(',')
   PA = A.pop().split(',').map(e => +e)
-  P  = A.pop().split(',')
   WA = A.pop().split(',').map(e => +e)
+  Pi = A.pop().split(',')
+  P  = A.pop().split(',')
   W  = A.pop().split(',')
   WW = new Set(W)
 })
