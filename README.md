@@ -1,6 +1,6 @@
 # Fraëd
 
-Use it at: <https://noureddin.github.io/fraed/>.
+Use it at: <https://www.noureddin.dev/fraed/>.
 
 ## License
 
