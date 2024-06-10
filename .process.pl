@@ -9,6 +9,8 @@ sub note { return qq[<small>($_[0])</small>] }
 
 use File::Temp qw[ tempfile ];
 
+my $css = 'deno run --quiet --allow-read --allow-env=HTTP_PROXY,http_proxy npm:clean-css-cli';
+my $js  = 'deno run --quiet --allow-read --allow-env=UGLIFY_BUG_REPORT npm:uglify-js';
 
 ## BEGIN
 
@@ -26,7 +28,7 @@ s/\s+\Z//;
 
 s{<<style>>}{
   sprintf '<style>%s</style>',
-  scalar qx[ deno run --quiet --allow-read npm:clean-css-cli .style.css ]
+  scalar qx[ $css .style.css ]
 }ge;
 
 
@@ -54,8 +56,8 @@ s{<script>(.*?)</script>}{
   #
   open my $ofh, '>', 'script.js';
   print { $ofh }
-  scalar qx[ deno run --quiet --allow-read npm:uglify-js --compress top_retain='$R',passes=10 --mangle toplevel,reserved='$R' .script.js ]
-  # scalar qx[ deno run --quiet --allow-read npm:uglify-js $filename ]
+  scalar qx[ $js --compress top_retain='$R',passes=10 --mangle toplevel,reserved='$R' .script.js ]
+  # scalar qx[ $js $filename ]
   # scalar qx[ cat $filename ]
     =~ s/[;\s]+\Z//r;
   close $ofh;
@@ -72,8 +74,8 @@ s{(<script) (src=")}{$1 defer $2}g;
 #  close $fh;
 #  #
 #  sprintf '<script>%s</script>',
-#  scalar qx[ deno run --quiet --allow-read npm:uglify-js --compress top_retain=$R,passes=5 --mangle toplevel,reserved=$R $filename ]
-#  # scalar qx[ deno run --quiet --allow-read npm:uglify-js $filename ]
+#  scalar qx[ $js --compress top_retain=$R,passes=5 --mangle toplevel,reserved=$R $filename ]
+#  # scalar qx[ $js $filename ]
 #  # scalar qx[ cat $filename ]
 #    =~ s/[;\s]+\Z//r
 #}sge;
