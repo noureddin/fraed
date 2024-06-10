@@ -45,6 +45,7 @@ button {  /* https://stackoverflow.com/a/8525002 with modifications */
   font: inherit;
   user-select: text;
   color: #009000;
+  white-space: normal;  /* allow wrapping on narrow screens */
 }
 button:hover { color: #062; text-decoration-thickness: 2px }
 @media (prefers-color-scheme: dark) {
