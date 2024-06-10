@@ -69,6 +69,12 @@ function unmark (aayah) {
   )
 }
 
+function unmark_word (word) {
+  return (word
+    .r(/^(.)\u0651/g, '$1')  // remove initial shadda-of-idgham
+  )
+}
+
 // remove final tashkeel signs
 // operates on a single-word string
 function deirab (word) {

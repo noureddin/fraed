@@ -1,9 +1,9 @@
 // W = A | unmark | split ' ' | deirab | only_uniq
 // WA[i] is where A[i] includes the word W[i]
 const _ = A
-  .flatMap((aya, idx) => unmark(aya).split(' ').map(word => [word, idx]))
+  .flatMap((aya, idx) => unmark(aya).split(' ').map(word => [unmark_word(word), idx]))
   .map(pair => [deirab(pair[0]), pair[1]])
-const W = 
+const W =
   only_uniq(_.map(pair => pair[0]))
   // only_uniq(A.flatMap((aya, idx) => unmark(aya).split(' ')).map(deirab))
 const WA =
