@@ -47,7 +47,7 @@ if wanted; then
 fi
 
 out=index.html
-dep=(a.gz .g.js .g.js .utils.js .make.js .logic.js .style.css .index.html .process.pl)
+dep=(a.gz .g.js .g.js .utils.js .init.js .make.js .logic.js .style.css .index.html .process.pl)
 if wanted; then
   echo building $out
   perl -CDAS .process.pl .index.html > index.html

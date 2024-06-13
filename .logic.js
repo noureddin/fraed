@@ -9,15 +9,19 @@ const add_sura = (s) => {
   if (s >= 1 && s <= 114) { suar.add(s) }
 }
 
+let start
+
 function ask () {
+  el_b.innerText = 'أظهر الإجابة'
   const x = rand_int_if(words.length, (x) => suar.has(S(answers[x])))
-  el_a.innerText = words[x]
+  el_a.innerHTML = start + words[x] + ' &hellip;'
   i = answers[x]
-  // console.log(x, i)
 }
 
 function answer () {
+  el_b.innerText = 'أظهر سؤالا آخر'
   let answer = A[i]
+    .replace(/^\u06DE\u00A0/, '')  // remove the rub el hizb mark from the first ayah in answer
   let sura = N(i)
   while (answer.length < 150 && sura === N(i+1)) {
     answer += ' ' + A[++i]
@@ -41,6 +45,8 @@ function prepare_to_play () {
     show_quiz_selection()
     return
   }
+
+  start = hq === 'gg' ? '&hellip; ' : ''
 
   const hs = hash_param('s', '[0-9,-]+')
   // console.log('s', hs)
@@ -82,7 +88,11 @@ function render (ev) {
       if (load_quiz || (load_quiz = prepare_to_play())) {
         load_quiz()
         show_play_screen()
-        onkeypress = play
+        onkeypress = (ev) => {
+          if (ev.target.tagName === 'BODY' && (ev.key === ' ' || ev.key === 'Enter')) {
+            ev.preventDefault(); play()
+          }
+        }
         ondblclick = (ev) => { ev.preventDefault(); play() }
         ask()
       }
@@ -95,7 +105,6 @@ function render (ev) {
 
 onhashchange = onload = render
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // HOME
 
@@ -103,7 +112,7 @@ function show (ids) { ids.split(' ').forEach(id => Qid(id).style.display = 'bloc
 function hide (ids) { ids.split(' ').forEach(id => Qid(id).style.display = 'none')  }
 
 function show_quiz_selection () {
-  hide('q a ss n')
+  hide('q a ss b back')
   show('hh qs')
 }
 
@@ -118,12 +127,12 @@ function show_suar_selection () {
       .r(/(بكلم(?:ة|ات))\.$/, '$1 معينة.')
       .r(/(بكلمتين)\.$/, '$1 معينتين.')
       .r(/تبدأ بداية .*/, /*A*/ 'تبدأ بداية معينة.')
-  hide('qs a n')
-  show('q hh ss')
+  hide('qs a b')
+  show('q hh ss back')
 }
 
 function show_play_screen () {
   hide('hh qs ss')
-  show('q a n')
+  show('q a b back')
 }
 

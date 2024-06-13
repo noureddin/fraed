@@ -9,6 +9,8 @@ sub note { return qq[<small>($_[0])</small>] }
 
 use File::Temp qw[ tempfile ];
 
+my $mangle = 1;  # set to 0 for debug, to 1 for prod
+
 my $css = 'deno run --quiet --allow-read --allow-env=HTTP_PROXY,http_proxy npm:clean-css-cli';
 my $js  = 'deno run --quiet --allow-read --allow-env=UGLIFY_BUG_REPORT npm:uglify-js';
 
@@ -46,7 +48,8 @@ s{<<([^<>]*?[.]js)>>}{
   slurp $1
 }ge;
 
-my $R = sprintf '[%s]', join ',', qw[ h ];  # global fns defined in JS that are called from HTML
+# global fns defined in JS that are called from HTML
+my $R = sprintf '[%s]', join ',', qw[ h play ];
 
 s{<script>(.*?)</script>}{
   my $filename = '.script.js';
@@ -55,8 +58,9 @@ s{<script>(.*?)</script>}{
   close $ifh;
   #
   open my $ofh, '>', 'script.js';
+  my $m = $mangle ? "--mangle toplevel,reserved='$R'" : "";
   print { $ofh }
-  scalar qx[ $js --compress top_retain='$R',passes=10 --mangle toplevel,reserved='$R' .script.js ]
+  scalar qx[ $js --compress top_retain='$R',passes=10 $m .script.js ]
   # scalar qx[ $js $filename ]
   # scalar qx[ cat $filename ]
     =~ s/[;\s]+\Z//r;
@@ -84,19 +88,19 @@ s{(<script) (src=")}{$1 defer $2}g;
 ## QUIZ SELECTION HTML
 
 sub quiz_button { my ($quiz, $title) = @_;
-  return qq[<nobr><button onclick="h('q=$quiz')">$title</button></nobr>];
-  # <nobr> to treate that element as a normal text word for line-breaking, so it won't break `</nobr>.`
+  my $h = "q=$quiz&s=1,2-114";
+  return qq[<a href="#$h" onclick="h('$h');return false">$title</a>];
+  # return qq[<nobr><button onclick="h('q=$quiz')">$title</button></nobr>];
+  # # <nobr> to treate that element as a normal text word for line-breaking, so it won't break `</nobr>.`
 }
 
-my $SP = '&emsp; ';
-
 my $qs = (
-  'اختبار معرفة '.quiz_button(gs => 'الآية البادئة بكلمة فريدة').' في القرءان،<br>'.
-  'أو اختبار معرفة '.quiz_button(gg => 'الآية المحتوية على كلمة فريدة').' في القرءان (صعب).<br>'.
-  'أو اختبار معرفة '.quiz_button(ssi => 'الآية الوحيدة في القرءان ذات أقصر بداية معينة').' (مقترح).<br>'.
-  'أو اختبار معرفة الآية الوحيدة في القرءان البادئة بكلمات معينة'.' '.note('والتي قد ترد في آيات أخرى في غير بدايتها').":$SP".
-  (join "،$SP",
-    quiz_button(s1 => 'كلمة واحدة')." ".note('صعب'),
+  '<li>اختبار معرفة '.quiz_button(gs => 'الآية البادئة بكلمة فريدة').' في القرءان</li>'.
+  '<li>اختبار معرفة '.quiz_button(gg => 'الآية المحتوية على كلمة فريدة').' في القرءان (صعب)</li>'.
+  '<li>اختبار معرفة الآية الوحيدة في القرءان ذات بداية معينة:<br>'.
+  (join '<br>',
+    quiz_button(ssi => 'أقصر بداية فريدة')." ".note('المقترح'),
+    quiz_button(s1 => 'كلمة&nbsp;واحدة')." ".note('صعب'),
     quiz_button(s2 => 'كلمتين'),
     quiz_button(s3 => 'ثلاث'),
     quiz_button(s4 => 'أربع'),
@@ -104,23 +108,25 @@ my $qs = (
     quiz_button(s6 => 'ست'),
     quiz_button(s7 => 'سبع'),
     quiz_button(s8 => 'ثماني'),
-    quiz_button(s9 => 'تسع كلمات')." ".note('سهل جدا').'.<br>',
-  ).
+    quiz_button(s9 => 'تسع&nbsp;كلمات')." ".note('سهل جدا'),
+  ).'</li>'.
   note('في جميع هذه الاختبارات، تُهمل حركة الحرف الأخير من الكلمة أو الكلمات.').
 '');
 
-s{<<qs>>}{$qs}g;
+s{<<qs>>}{<ul>$qs</ul>}g;
 
 
 ## SUAR SELECTION HTML
 
-my $ss =  # TODO: for now, all suar are selected
-  'ابدأ الاختبار في '
-  .qq[<nobr><button onclick="h('s=1,2-114')">جميع السور</button></nobr>]
-  .'.'
-  ;
+# my $ss =  # TODO: for now, all suar are selected
+#   'ابدأ الاختبار في '
+#   .qq[<nobr><button onclick="h('s=1,2-114')">جميع السور</button></nobr>]  # TODO
+#   .'.'
+#   ;
 
-s{<<ss>>}{$ss}g;
+# s{<<ss>>}{$ss}g;
+
+s{<<ss>>}{}g;
 
 
 ## END

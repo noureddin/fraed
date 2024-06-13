@@ -8,53 +8,71 @@
   font-display: swap;
 }
 html {
-  font-size: 24px;
+  font-size: 18px;
   font-family: Q, "Amiri Quran", "Amiri", serif;
   background: #e0e0c8;
   color: #222;
-  line-height: 3;  /* for overline */
+  line-height: 2.5;  /* because AmiriQuran is extra high for Quranic marks */
   touch-action: manipulation; /* disable double-tap zooming; https://stackoverflow.com/a/53236027 */
+}
+h2 {
+  line-height: 1.5;
+  padding-bottom: 0.5em;
+}
+#a {
+  font-size: 24px;
+  line-height: 3;  /* for overline */
 }
 body > * {
   width: 36rem;
   max-width: 85%;
   margin: auto;
 }
-#q, #n { font-size: 20px }
 #q { color: #666 }
-#n { color: #999 }
-#n {
-  border-bottom: 1px solid;
+#back {
+  opacity: 60%;
+  text-align: center;
+}
+ul {
+  padding: 0 1em;
+  margin: 0;
 }
 * {
   text-weight: normal;
+}
+button {
+  font-family: "KacstOne", serif;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 8em;
+  margin: 1em auto;
+  padding: 0.5em;
+  cursor: pointer;
+  background: inherit;
+  color: inherit;
+  border-radius: 0.4em;
+  transition: box-shadow 0.1s;
+  box-shadow: inset 0  2em 2em -2em rgba(255, 255, 255, 0.5);
+}
+button:hover {
+  box-shadow: inset 0 -2em 2em -2em rgba(255, 255, 255, 0.5);
 }
 em {
   font-style: normal;
   border-bottom: 0.1em solid;
 }
-button {  /* https://stackoverflow.com/a/8525002 with modifications */
-  display: inline;
-  position: relative;
-  background-color: transparent;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
+a {
   text-decoration: underline 1px;
   text-underline-offset: 60%;  /* below Ayn in Amiri */
-  font: inherit;
-  user-select: text;
   color: #009000;
-  white-space: normal;  /* allow wrapping on narrow screens */
 }
-button:hover { color: #062; text-decoration-thickness: 2px }
+a:hover { color: #062; text-decoration-thickness: 2px }
 @media (prefers-color-scheme: dark) {
   html {
     background: #262620;
     color: #e0e0c8;
   }
-  #n { color: #666 }
   #q { color: #999 }
-  button       { color: #4f4 }
-  button:hover { color: #8fc }
+  a       { color: #4f4 }
+  a:hover { color: #8fc }
 }

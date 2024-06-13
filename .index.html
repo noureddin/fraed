@@ -14,11 +14,12 @@
 </head>
 <body>
 <h2 id="hh">فرائد: <small>هل تستطيع معرفة الآيات التي وردت فيها كلمات لم ترد في غيرها؟</small></h2>
-<div id="n">(لإظهار الإجابة أو لرؤية كلمة جديدة، اضغط أي زر على لوحة المفاتيح أو انقر نقرة مزدوجة في أي مكان على الصفحة.)</div>
 <div id="q"></div>
 <div id="a"></div>
 <div id="qs"><<qs>></div>
 <div id="ss"><<ss>></div>
+<button id="b" onclick="play()"></button>
+<div id="back"><a href="">تغيير الاختبار</a></div>
 <script>
 'use strict'
 
@@ -57,14 +58,7 @@ G('a.gz').then((data) => {
 // both are defined in the inlined .utils.js file.
 
 <<.utils.js>>
-
-const Qid = (id) => document.getElementById(id)
-const el_q = Qid('q')
-const el_a = Qid('a')
-
-let words
-let answers
-
+<<.init.js>>
 <<.make.js>>
 <<.logic.js>>
 
