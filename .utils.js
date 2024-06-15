@@ -91,6 +91,7 @@ function deirab (word) {
     .r(/\u064b([اى]?)$/,       '$1')  // tanween fath
     .r(/\u08f0([اى]?)$/,       '$1')  // open tanween fath
     .r(/\u064e\u06e2([اى]?)$/, '$1')  // iqlab tanween fath
+    .r(/\u064e([اى]?)$/, '$1')        // just fath, before final alef (either kind), because of tanween (eg, إذا)
     // remove dagger alef from final alef maqsura (its existence depends on the first letter of the next word)
     .r(/(ى)\u0670$/, '$1')
   )
