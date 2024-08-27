@@ -88,12 +88,15 @@ function deirab (word) {
     .r(/[\u08f1\u08f2]$/,      '')    // open tanween {damm, kasr}
     .r(/\u064f\u06e2$/,        '')    // iqlab tanween damm
     .r(/\u0650\u06ed$/,        '')    // iqlab tanween kasr
+    .r(/\u06e2$/,              '')    // iqlab on final noon
+    .r(/(ا)\u06df$/,           '$1')  // remove rounded zero from final alef
+    .r(/(ى)\u0670$/,           '$1')  // remove dagger alef from final alef maqsura
+        // (its existence depends on the first letter of the next word)
     .r(/\u064b([اى]?)$/,       '$1')  // tanween fath
     .r(/\u08f0([اى]?)$/,       '$1')  // open tanween fath
     .r(/\u064e\u06e2([اى]?)$/, '$1')  // iqlab tanween fath
-    .r(/\u064e([اى]?)$/, '$1')        // just fath, before final alef (either kind), because of tanween (eg, إذا)
-    // remove dagger alef from final alef maqsura (its existence depends on the first letter of the next word)
-    .r(/(ى)\u0670$/, '$1')
+    .r(/\u064e([اى]?)$/,       '$1')  // just fath, before final alef (either kind), because of tanween (eg, إذا)
+    .r(/\u06e4(ا)$/,           '$1')  // madd before the final silent alef after waw
   )
 }
 

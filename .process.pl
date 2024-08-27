@@ -59,7 +59,7 @@ s{<script>(.*?)</script>}{
   #
   open my $ofh, '>', 'script.js';
   my $m = $mangle ? "--mangle toplevel,reserved='$R'" : "";
-  print { $ofh }
+  print { $ofh } '"use strict";',
   scalar qx[ $js --compress top_retain='$R',passes=10 $m .script.js ]
   # scalar qx[ $js $filename ]
   # scalar qx[ cat $filename ]
